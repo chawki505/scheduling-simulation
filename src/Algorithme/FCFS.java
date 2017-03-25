@@ -17,7 +17,7 @@ public class FCFS {
         float t1 = 0, t2 = 0;
 
 
-        System.out.print("entrer le nomnre de processus : ");
+        System.out.print("entrer le nombre de processus : ");
         p = in.nextInt();
 
 
