@@ -1,6 +1,7 @@
 package Main;
 
 import Algorithme.FCFS;
+import Algorithme.Priority;
 import Algorithme.Roundrobin;
 
 /**
@@ -11,8 +12,8 @@ public class Main {
     public static void main(String[] args) {
 
 
-        FCFS fcfs = new FCFS();
-        fcfs.runFCFSmethode();
+        //FCFS fcfs = new FCFS();
+        //fcfs.runFCFSmethode();
 
 //main de roundrobin
        // Scanner s=new Scanner(System.in);
@@ -22,6 +23,10 @@ public class Main {
         //obj.get();
         //obj.round();
         //obj.display();
+
+
+        Priority p=new Priority();
+        p.runPriority();
 
     }
 }
