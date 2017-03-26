@@ -12,6 +12,9 @@ public class Roundrobin {
     int[] bur, rem, wai, ta;
     int size, q, b = 0, t = 0, flag = 0;
 
+    public Roundrobin() {
+    }
+
     Roundrobin(int size) {
         this.size = size;
         bur = new int[size];
@@ -80,6 +83,16 @@ public class Roundrobin {
         }
         System.out.println("Average waiting time:" + (b / size));
         System.out.println("Average Turnaround time:" + (t / size));
+    }
+
+    public void run() {
+        Scanner s = new Scanner(System.in);
+        System.out.print("Enter the no of process:");
+        int n = s.nextInt();
+        Roundrobin obj = new Roundrobin(n);
+        obj.get();
+        obj.round();
+        obj.display();
     }
 }
 

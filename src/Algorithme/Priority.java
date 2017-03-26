@@ -12,7 +12,6 @@ public class Priority {
     public void runPriority() {
         Scanner sc = new Scanner(System.in);
 
-
         int i = 0, n;
         int apw1[];
 
