@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="243.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TableView layoutX="392.0" layoutY="14.0" prefHeight="185.0" prefWidth="179.0">
+        <columns>
+          <TableColumn prefWidth="84.0" text="Processus" />
+          <TableColumn prefWidth="103.0" text="Temp CPU" />
+        </columns>
+      </TableView>
+      <TextField layoutX="183.0" layoutY="110.0" prefHeight="27.0" prefWidth="45.0" />
+      <Label layoutX="14.0" layoutY="115.0" text="Temp CPU du processus :" />
+      <Button layoutX="171.0" layoutY="202.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="69.0" text="Ajouter" />
+      <Text layoutX="25.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pour ajouter un processus il sufit de fixé le temp cpu puis de cliquer sur ajouter" wrappingWidth="316.2548828125">
+         <font>
+            <Font name="Arial" size="16.0" />
+         </font>
+      </Text>
+      <Button layoutX="455.0" layoutY="202.0" mnemonicParsing="false" text="Calculer" />
+      <Label layoutX="14.0" layoutY="146.0" text="Priority :" />
+      <TextField layoutX="183.0" layoutY="141.0" prefHeight="27.0" prefWidth="45.0" />
+   </children>
+</AnchorPane>

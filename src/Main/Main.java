@@ -10,8 +10,10 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
         int choix;
+
         System.out.println("1-FCFS");
         System.out.println("2-SJF");
         System.out.println("3-RR");
@@ -32,7 +34,6 @@ public class Main {
                 break;
 
             case 3:
-
                 Roundrobin roundrobin = new Roundrobin();
                 roundrobin.run();
                 break;

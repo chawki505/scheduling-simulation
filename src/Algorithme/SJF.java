@@ -9,38 +9,38 @@ public class SJF {
 
     public void runSJFmethode() {
 
-
         Scanner sc = new Scanner(System.in);
 
         int pno[] = new int[10];
-        int bt[] = new int[10];
-        int wt[] = new int[10];
-        int tt[] = new int[10];
+        int cpuTime[] = new int[10];
+        int watingTimeProcessus[] = new int[10];
+        int turnAroundTimeProcessus[] = new int[10];
 
         int tempwt[] = new int[10];
         int tempno[] = new int[12]; //stores process no temporary
 
         int temp[] = new int[12]; //represent Gantt chart
 
-        int n, i, j, ptr, t, t2;
+        int nbrProcessus, i, j, ptr, t, t2;
 
-        float awt, atat, twt = 0, ttat = 0;
+        float moyWaitingtime, moyTurnAroundTime, tempWT = 0, tempTAT = 0;
 
-        System.out.println("Enter no of processes(less than 10):");
-        n = sc.nextInt();
+        System.out.println("Enter no of processes(max10):");
+        nbrProcessus = sc.nextInt();
 
-        for (i = 0; i < n; i++) {
-            System.out.println("Enter the burst time of process " + (i + 1));
-            bt[i] = sc.nextInt();
-            temp[i] = bt[i];
+        for (i = 0; i < nbrProcessus; i++) {
+            System.out.println("Enter the cpu Time time of process " + (i + 1));
+            cpuTime[i] = sc.nextInt();
+
+            temp[i] = cpuTime[i];
             pno[i] = i + 1;
             tempno[i] = pno[i];
         }
 
-        for (i = 0; i < n; i++) {
+        for (i = 0; i < nbrProcessus; i++) {
             ptr = 0;
 
-            while (ptr <= n - i) {
+            while (ptr <= nbrProcessus - i) {
                 if (temp[ptr] > temp[ptr + 1]) {
                     t = temp[ptr];
                     temp[ptr] = temp[ptr + 1];
@@ -53,7 +53,7 @@ public class SJF {
             }
         }
 
-        for (i = 0; i < n; i++) {
+        for (i = 0; i < nbrProcessus; i++) {
             temp[i] = temp[i + 2];
             tempno[i] = tempno[i + 2];
         }
@@ -61,42 +61,42 @@ public class SJF {
 
         tempwt[0] = 0;
 
-        for (i = 1; i < n; i++)
+        for (i = 1; i < nbrProcessus; i++)
             tempwt[i] = tempwt[i - 1] + temp[i - 1];
 
-        for (i = 0; i < n; i++) {
+        for (i = 0; i < nbrProcessus; i++) {
             j = 0;
 
-            while (tempno[i] != pno[j] && j < n)
+            while (tempno[i] != pno[j] && j < nbrProcessus)
                 j++;
-            wt[j] = tempwt[i];
+            watingTimeProcessus[j] = tempwt[i];
         }
 
-        for (i = 0; i < n; i++)
-            tt[i] = wt[i] + bt[i];
+        for (i = 0; i < nbrProcessus; i++)
+            turnAroundTimeProcessus[i] = watingTimeProcessus[i] + cpuTime[i];
 
-        for (i = 0; i < n; i++) {
-            twt = twt + wt[i];
-            ttat = ttat + tt[i];
+        for (i = 0; i < nbrProcessus; i++) {
+            tempWT = tempWT + watingTimeProcessus[i];
+            tempTAT = tempTAT + turnAroundTimeProcessus[i];
         }
 
 
-        awt = twt / n;
-        atat = ttat / n;
+        moyWaitingtime = tempWT / nbrProcessus;
+        moyTurnAroundTime = tempTAT / nbrProcessus;
 
 
         System.out.println("Process\tBurst Time\tWaiting Time\tTurnaround Time");
 
 
-        for (i = 0; i < n; i++)
+        for (i = 0; i < nbrProcessus; i++)
         {
-            System.out.print("P" + pno[i] + "\t" + bt[i] + "\t\t" + wt[i] + "\t\t" + tt[i]);
+            System.out.print("P" + pno[i] + "\t     " + cpuTime[i] + "\t\t        " + watingTimeProcessus[i] + "\t\t        " + turnAroundTimeProcessus[i]);
             System.out.println();
         }
 
 
-        System.out.println("Average Waiting Time=" + awt);
-        System.out.println("Average Turnaround Time=" + atat);
+        System.out.println("Average Waiting Time=" + moyWaitingtime);
+        System.out.println("Average Turnaround Time=" + moyTurnAroundTime);
 
     }
 }

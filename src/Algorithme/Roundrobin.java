@@ -1,7 +1,7 @@
 package Algorithme;
 
 /**
- * Created by chawki on 21/03/2017.
+ * Created by ibtissem on 21/03/2017.
  */
 
 import java.util.*;
@@ -12,8 +12,10 @@ public class Roundrobin {
     int[] tempCPU, tempsCPU1, waitingT, teurnaround;
     int size, quantum, b = 0, t = 0, flag = 0;
 
+
     public Roundrobin() {
     }
+
 
     Roundrobin(int size) {
         this.size = size;
@@ -22,6 +24,8 @@ public class Roundrobin {
         teurnaround = new int[size];
         tempsCPU1 = new int[size];
     }
+
+
 
     // enter le le temps cpu pour chaque processus et le quantum
     void get() {
@@ -33,6 +37,8 @@ public class Roundrobin {
         System.out.print("Enter quantum time:");
         quantum = sc.nextInt();
     }
+
+
 
     // calculer le turnaround et le waiting time pour chaque processus
     void round()
