@@ -9,24 +9,25 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="243.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.ControlerMenuPriority">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.ControlerMenuPriority">
    <children>
-      <TableView layoutX="392.0" layoutY="14.0" prefHeight="185.0" prefWidth="179.0">
+      <TableView fx:id="tableProcessusPriority" layoutX="348.0" layoutY="14.0" prefHeight="185.0" prefWidth="285.0">
         <columns>
-          <TableColumn prefWidth="84.0" text="Processus" />
-          <TableColumn prefWidth="103.0" text="Temp CPU" />
+          <TableColumn fx:id="nomProcessusColumn" prefWidth="89.0" resizable="false" text="Processus" />
+          <TableColumn fx:id="cpuTimeProcessusColumn" prefWidth="86.0" resizable="false" text="Temp CPU" />
+            <TableColumn fx:id="priorityProcessusColumn" prefWidth="85.0" text="Priority" />
         </columns>
       </TableView>
-      <TextField layoutX="183.0" layoutY="110.0" prefHeight="27.0" prefWidth="45.0" />
+      <TextField fx:id="cpuTimeField" layoutX="183.0" layoutY="110.0" prefHeight="27.0" prefWidth="45.0" />
       <Label layoutX="14.0" layoutY="115.0" text="Temp CPU du processus :" />
-      <Button layoutX="171.0" layoutY="202.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="69.0" text="Ajouter" />
+      <Button layoutX="171.0" layoutY="202.0" mnemonicParsing="false" onAction="#ajouterProcessus" prefHeight="27.0" prefWidth="69.0" text="Ajouter" />
       <Text layoutX="25.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pour ajouter un processus il sufit de fixé le temp cpu puis de cliquer sur ajouter" wrappingWidth="316.2548828125">
          <font>
             <Font name="Arial" size="16.0" />
          </font>
       </Text>
-      <Button layoutX="455.0" layoutY="202.0" mnemonicParsing="false" onAction="#calculerPriority" text="Calculer" />
+      <Button layoutX="456.0" layoutY="202.0" mnemonicParsing="false" onAction="#calculerPriority" text="Calculer" />
       <Label layoutX="14.0" layoutY="146.0" text="Priority :" />
-      <TextField layoutX="183.0" layoutY="141.0" prefHeight="27.0" prefWidth="45.0" />
+      <TextField fx:id="priorityField" layoutX="183.0" layoutY="141.0" prefHeight="27.0" prefWidth="45.0" />
    </children>
 </AnchorPane>

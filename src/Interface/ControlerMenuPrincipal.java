@@ -3,7 +3,10 @@ package Interface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 
 import java.io.IOException;
 import java.net.URL;
@@ -60,11 +63,23 @@ public class ControlerMenuPrincipal implements Initializable {
 
     }
 
+
+
+
+
+
+
     //methode pour l'initialisation par default au lancement du programme( par defaut = fcfs)
     //methode lancer automatiquement au lancement de la fenetre fxml
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         path = "/Interface/MenuFCFS.fxml";
         name = "FCFS Menu";
+
+        Listes.getListProcessusesFCFS().clear();
+        Listes.getListProcessusesRR().clear();
+        Listes.getListProcessusesPriority().clear();
+        Listes.getListProcessusesSJF().clear();
+        Listes.getAvg().clear();
     }
 }

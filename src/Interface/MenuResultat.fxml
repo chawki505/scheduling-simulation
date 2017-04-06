@@ -24,16 +24,16 @@
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" Average Waiting Time :" />
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text=" Average Turn Around Time :" GridPane.rowIndex="1" />
-            <Label text="Label" GridPane.columnIndex="1" />
-            <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="moyWaitingTime" text="Label" GridPane.columnIndex="1" />
+            <Label fx:id="moyTurnAroundTime" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <TableView layoutX="14.0" layoutY="16.0" prefHeight="200.0" prefWidth="458.0">
+      <TableView fx:id="tableProcessusResulta" layoutX="14.0" layoutY="16.0" prefHeight="200.0" prefWidth="458.0">
         <columns>
-          <TableColumn prefWidth="81.0" text="Processus" />
-          <TableColumn prefWidth="106.0" text="CPU Time" />
-            <TableColumn prefWidth="125.0" text="Waiting time" />
-            <TableColumn prefWidth="118.0" text="Turn Around Time" />
+          <TableColumn fx:id="nomProcessusColumn" prefWidth="81.0" text="Processus" />
+          <TableColumn fx:id="cpuTimeProcessusColumn" prefWidth="106.0" text="CPU Time" />
+            <TableColumn fx:id="waitingTimeProcessusColumn" prefWidth="125.0" text="Waiting time" />
+            <TableColumn fx:id="turnAroundTimeProcessusColumn" prefWidth="118.0" text="Turn Around Time" />
         </columns>
       </TableView>
       <Button layoutX="337.0" layoutY="355.0" mnemonicParsing="false" onAction="#retourMenuPrincipal" text="Retour" />

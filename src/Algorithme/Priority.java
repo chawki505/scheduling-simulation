@@ -72,19 +72,19 @@ public class Priority {
         }
 
         for (i = 0; i < n; i++) {
-            System.out.println("indivisual waiting time for process p" + p[i]+" " + "is" +" " + watingT1[i] + " ");
+            System.out.println("indivisual waiting time for process p" + p[i] + " " + "is" + " " + watingT1[i] + " ");
         }
 
         for (i = 0; i < n; i++)
             time += watingT1[i];
         float watingTimeMoyenne = time / n;
-        System.out.println("average waiting time is:" +" " + watingTimeMoyenne);
+        System.out.println("average waiting time is:" + " " + watingTimeMoyenne);
 
 
         for (i = 0; i < n; i++) {
             int k = p[i];
             turnaround[i] = timeCPU[k - 1] + watingT1[i];
-            System.out.println("turnaround time for process p" + p[i] +" "+ "is" +" "+ turnaround[i] + " ");
+            System.out.println("turnaround time for process p" + p[i] + " " + "is" + " " + turnaround[i] + " ");
         }
 
 
@@ -92,7 +92,7 @@ public class Priority {
             time2 += turnaround[i];
 
         float turnaroudMoyenne = time2 / n;
-        System.out.println("average turn-around time is:" +" " +turnaroudMoyenne);
+        System.out.println("average turn-around time is:" + " " + turnaroudMoyenne);
 
 
     }
