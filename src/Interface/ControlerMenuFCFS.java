@@ -37,15 +37,12 @@ public class ControlerMenuFCFS implements Initializable {
     private int compteurProcessus;
 
 
-
     private TestCalcul testCalcul = new TestCalcul();
-
 
 
     /**
      * Methodes
      **/
-
 
 
     //methode pour ajouter les processus dans le tab
@@ -59,7 +56,7 @@ public class ControlerMenuFCFS implements Initializable {
     //button ajouter processus
     @FXML
     private void ajouterProcessus(ActionEvent event) {
-        if (DetectionErreur.isInputValid(cpuTimeField,"CPUtime")) {
+        if (DetectionErreur.isInputValid(cpuTimeField, "CPUtime")) {
             add();
             tableProcessusFCFS.setItems(Listes.getListProcessusesFCFS());
         }
@@ -69,12 +66,12 @@ public class ControlerMenuFCFS implements Initializable {
     //button calculer dans le menu fcfs
     @FXML
     private void calculerFCFS(ActionEvent event) throws Exception {
-        testCalcul.runFCFSmethode();
-        ControlerMenuResultat.setChoix("FCFS");
-        ChangeMenu.afficheMenuResultat(event);
+        if (!Listes.getListProcessusesFCFS().isEmpty()) {
+            testCalcul.runFCFSmethode();
+            ControlerMenuResultat.setChoix("FCFS");
+            ChangeMenu.afficheMenuResultat(event);
+        }
     }
-
-
 
 
     //methode par default pour l'initialisation

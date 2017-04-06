@@ -69,7 +69,7 @@ public class ControlerMenuRR implements Initializable {
     @FXML
     //button calculer dans le menu RR
     private void calculerRR(ActionEvent event) throws IOException {
-        if (DetectionErreur.isInputValid(quantumField, "Quantum")) {
+        if (DetectionErreur.isInputValid(quantumField, "Quantum") && !Listes.getListProcessusesRR().isEmpty()) {
             quantum = Integer.parseInt(quantumField.getText());
             testCalcul.runRR();
             ControlerMenuResultat.setChoix("RR");

@@ -56,7 +56,7 @@ public class ControlerMenuPriority implements Initializable {
     //button ajouter processus
     @FXML
     private void ajouterProcessus(ActionEvent event) {
-        if (DetectionErreur.isInputValid(cpuTimeField,"CPUtime") && DetectionErreur.isInputValid(priorityField,"Priority")) {
+        if (DetectionErreur.isInputValid(cpuTimeField, "CPUtime") && DetectionErreur.isInputValid(priorityField, "Priority")) {
             add();
             tableProcessusPriority.setItems(Listes.getListProcessusesPriority());
         }
@@ -66,10 +66,11 @@ public class ControlerMenuPriority implements Initializable {
     @FXML
     //button calculer dans le menu priority
     private void calculerPriority(ActionEvent event) throws IOException {
-
-        testCalcul.runPriority();
-        ControlerMenuResultat.setChoix("Priority");
-        ChangeMenu.afficheMenuResultat(event);
+        if (!Listes.getListProcessusesPriority().isEmpty()) {
+            testCalcul.runPriority();
+            ControlerMenuResultat.setChoix("Priority");
+            ChangeMenu.afficheMenuResultat(event);
+        }
     }
 
 

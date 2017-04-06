@@ -52,7 +52,7 @@ public class ControlerMenuSJF implements Initializable {
     //button ajouter processus
     @FXML
     private void ajouterProcessus(ActionEvent event) {
-        if (DetectionErreur.isInputValid(cpuTimeField,"CPUtime")) {
+        if (DetectionErreur.isInputValid(cpuTimeField, "CPUtime")) {
             add();
             tableProcessusSJF.setItems(Listes.getListProcessusesSJF());
         }
@@ -62,9 +62,11 @@ public class ControlerMenuSJF implements Initializable {
     @FXML
     //button calculer dans le menu sjf
     private void calculerSJF(ActionEvent event) throws IOException {
-        testCalcul.runSJFmethode();
-        ControlerMenuResultat.setChoix("SJF");
-        ChangeMenu.afficheMenuResultat(event);
+        if (!Listes.getListProcessusesSJF().isEmpty()) {
+            testCalcul.runSJFmethode();
+            ControlerMenuResultat.setChoix("SJF");
+            ChangeMenu.afficheMenuResultat(event);
+        }
 
 
     }
