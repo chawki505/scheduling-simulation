@@ -1,15 +1,23 @@
-package Interface;
+package Interface.AlgorithmeMenu;
 
-import Interface.Calcule.TestCalcul;
-import Model.Processus;
+import Algorithme.FCFS;
+
+
+import Interface.Other.Aleatoire;
+import Interface.Other.ChangeMenu;
+import Interface.Principal.ControlerMenuPrincipal;
+import Interface.Resultat.ControlerMenuResultat;
+import Interface.Other.DetectionErreur;
+import Interface.Other.Listes;
+import Interface.Model.Processus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
+
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,9 +28,10 @@ import java.util.ResourceBundle;
 public class ControlerMenuFCFS implements Initializable {
 
     /**
-     * attribut
+     * Attribut
      **/
 
+    // attribue de l'interface graphique (tableView)
     @FXML
     private TableView<Processus> tableProcessusFCFS;
     @FXML
@@ -37,17 +46,17 @@ public class ControlerMenuFCFS implements Initializable {
     private int compteurProcessus;
 
 
-    private TestCalcul testCalcul = new TestCalcul();
+    // instence de la methode fcfs
+    private FCFS fcfs = new FCFS();
 
 
     /**
      * Methodes
      **/
 
-
     //methode pour ajouter les processus dans le tab
     private void add() {
-        Listes.getListProcessusesFCFS().add(new Processus("P" + (compteurProcessus + 1), Integer.parseInt(cpuTimeField.getText())));
+        Listes.getListProcessusesFCFS().add(new Processus((compteurProcessus + 1), Integer.parseInt(cpuTimeField.getText())));
         compteurProcessus++;
         cpuTimeField.setText("");
     }
@@ -67,10 +76,22 @@ public class ControlerMenuFCFS implements Initializable {
     @FXML
     private void calculerFCFS(ActionEvent event) throws Exception {
         if (!Listes.getListProcessusesFCFS().isEmpty()) {
-            testCalcul.runFCFSmethode();
+            fcfs.runFCFSmethode();
             ControlerMenuResultat.setChoix("FCFS");
             ChangeMenu.afficheMenuResultat(event);
         }
+    }
+
+    //methode d'ajout aleatoirement
+    private void addProcessusAleatoirement() {
+        Aleatoire aleatoire = new Aleatoire();
+        int nbr = aleatoire.getNbrProcessus();
+        for (int i = 0; i < nbr; i++) {
+            Listes.getListProcessusesFCFS().add(new Processus((i + 1), aleatoire.getCpuTime()));
+            compteurProcessus++;
+            aleatoire = new Aleatoire();
+        }
+        tableProcessusFCFS.setItems(Listes.getListProcessusesFCFS());
     }
 
 
@@ -81,6 +102,11 @@ public class ControlerMenuFCFS implements Initializable {
         cpuTimeProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().cpuTimeProperty());
         compteurProcessus = 0;
         cpuTimeField.setText("");
+
+        if (ControlerMenuPrincipal.getChoix().equals("Aleatoire")) {
+            addProcessusAleatoirement();
+        }
+
     }
 
 

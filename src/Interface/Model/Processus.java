@@ -1,4 +1,4 @@
-package Model;
+package Interface.Model;
 
 import javafx.beans.property.*;
 
@@ -7,41 +7,61 @@ import javafx.beans.property.*;
  */
 public class Processus {
 
+    /**
+     * Attribut
+     **/
+
     private final StringProperty nom;
+    private final IntegerProperty num;
     private final IntegerProperty cpuTime;
+    private final IntegerProperty priority;
     private final FloatProperty waitTime;
     private final FloatProperty turnAroundTime;
-    private final IntegerProperty priority;
 
 
+    /**
+     * Constructeur
+     **/
+
+    //par default
     public Processus() {
-        this(null, 0, 0, 0, 0);
+        this(0, 0, 0, 0, 0);
     }
 
-    public Processus(String nom, int cpuTime) {
-        this.nom = new SimpleStringProperty(nom);
+    //pour fcfs , sjf et rr
+    public Processus(int num, int cpuTime) {
+        this.num = new SimpleIntegerProperty(num);
+        this.nom = new SimpleStringProperty("P" + num);
         this.cpuTime = new SimpleIntegerProperty(cpuTime);
         this.priority = new SimpleIntegerProperty(0);
         this.waitTime = new SimpleFloatProperty(0);
         this.turnAroundTime = new SimpleFloatProperty(0);
     }
 
-    public Processus(String nom, int cpuTime, int priority) {
-        this.nom = new SimpleStringProperty(nom);
+    //pour priority
+    public Processus(int num, int cpuTime, int priority) {
+        this.num = new SimpleIntegerProperty(num);
+        this.nom = new SimpleStringProperty("P" + num);
         this.cpuTime = new SimpleIntegerProperty(cpuTime);
         this.priority = new SimpleIntegerProperty(priority);
         this.waitTime = new SimpleFloatProperty(0);
         this.turnAroundTime = new SimpleFloatProperty(0);
     }
 
-    public Processus(String nom, int cpuTime, int priority, float waitTime, float turnAroundTime) {
-        this.nom = new SimpleStringProperty(nom);
+    //pour linisialisation avec celui par deflault
+    public Processus(int num, int cpuTime, int priority, float waitTime, float turnAroundTime) {
+        this.num = new SimpleIntegerProperty(num);
+        this.nom = new SimpleStringProperty("P" + num);
         this.cpuTime = new SimpleIntegerProperty(cpuTime);
         this.priority = new SimpleIntegerProperty(priority);
         this.waitTime = new SimpleFloatProperty(waitTime);
         this.turnAroundTime = new SimpleFloatProperty(turnAroundTime);
     }
 
+
+    /**
+     * Gutters and Setters
+     **/
 
     public String getNom() {
         return nom.get();
@@ -53,6 +73,18 @@ public class Processus {
 
     public void setNom(String nom) {
         this.nom.set(nom);
+    }
+
+    public int getNum() {
+        return num.get();
+    }
+
+    public IntegerProperty numProperty() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num.set(num);
     }
 
     public int getCpuTime() {

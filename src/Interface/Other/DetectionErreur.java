@@ -1,4 +1,4 @@
-package Interface;
+package Interface.Other;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -12,7 +12,7 @@ public class DetectionErreur {
 
     private static Stage dialogStage;
 
-    //methode pour verifier la saisi correcte du cpu time else elle affiche une boite de dialogue de message d'erreur
+    //methode pour verifier la saisi correcte  else elle affiche une boite de dialogue de message d'erreur
     public static boolean isInputValid(TextField label, String choix) {
         String errorMessage = "";
 

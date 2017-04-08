@@ -1,7 +1,14 @@
-package Interface;
+package Interface.AlgorithmeMenu;
 
-import Interface.Calcule.TestCalcul;
-import Model.Processus;
+import Algorithme.Roundrobin;
+
+import Interface.Other.ChangeMenu;
+import Interface.Other.Aleatoire;
+import Interface.Principal.ControlerMenuPrincipal;
+import Interface.Resultat.ControlerMenuResultat;
+import Interface.Other.DetectionErreur;
+import Interface.Other.Listes;
+import Interface.Model.Processus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,6 +26,9 @@ import java.util.ResourceBundle;
  */
 public class ControlerMenuRR implements Initializable {
 
+    /**
+     * Attribut
+     **/
 
     @FXML
     private TableView<Processus> tableProcessusRR;
@@ -41,16 +51,17 @@ public class ControlerMenuRR implements Initializable {
         return quantum;
     }
 
-    public static void setQuantum(int quantum) {
-        ControlerMenuRR.quantum = quantum;
-    }
+
+    private Roundrobin roundrobin = new Roundrobin();
 
 
-    private TestCalcul testCalcul = new TestCalcul();
+    /**
+     * Methodes
+     **/
 
     //methode pour ajouter les processus dans le tab
     private void add() {
-        Listes.getListProcessusesRR().add(new Processus("P" + (compteurProcessus + 1), Integer.parseInt(cpuTimeField.getText())));
+        Listes.getListProcessusesRR().add(new Processus((compteurProcessus + 1), Integer.parseInt(cpuTimeField.getText())));
         compteurProcessus++;
         cpuTimeField.setText("");
     }
@@ -69,12 +80,24 @@ public class ControlerMenuRR implements Initializable {
     @FXML
     //button calculer dans le menu RR
     private void calculerRR(ActionEvent event) throws IOException {
-        if (DetectionErreur.isInputValid(quantumField, "Quantum") && !Listes.getListProcessusesRR().isEmpty()) {
+        if (DetectionErreur.isInputValid(quantumField, "Quantum") && !Listes.getListProcessusesRR().isEmpty() && Integer.parseInt(quantumField.getText()) > 0) {
             quantum = Integer.parseInt(quantumField.getText());
-            testCalcul.runRR();
+            roundrobin.runRRmethode();
             ControlerMenuResultat.setChoix("RR");
             ChangeMenu.afficheMenuResultat(event);
         }
+    }
+
+    //methode d'ajout aleatoirement
+    private void addProcessusAleatoirement() {
+        Aleatoire aleatoire = new Aleatoire();
+        int nbr = aleatoire.getNbrProcessus();
+        for (int i = 0; i < nbr; i++) {
+            Listes.getListProcessusesRR().add(new Processus((i + 1), aleatoire.getCpuTime()));
+            compteurProcessus++;
+            aleatoire = new Aleatoire();
+        }
+        tableProcessusRR.setItems(Listes.getListProcessusesRR());
     }
 
     @Override
@@ -85,5 +108,8 @@ public class ControlerMenuRR implements Initializable {
         quantum = 1;
         cpuTimeField.setText("");
         quantumField.setText("");
+        if (ControlerMenuPrincipal.getChoix().equals("Aleatoire")) {
+            addProcessusAleatoirement();
+        }
     }
 }

@@ -1,99 +1,59 @@
 package Algorithme;
 
+import Interface.Other.Listes;
+
+
 /**
  * Created by ibtissem on 21/03/2017.
  */
 
-import java.util.*;
-
-public class Priority {
+public class Priority extends Comparator {
 
 
-    public void runPriority() {
-        Scanner sc = new Scanner(System.in);
+    /**
+     * Methodes
+     **/
 
-        int i = 0, n;
-        int watingT1[];
+    //methode Priority
+    public void runPriorityMethode() {
 
-        System.out.print("entrer le nombre de processus : ");
-        n = sc.nextInt();
-        int timeCPU[] = new int[n];
-        int n1 = n;
+        float tempWaitingTime = 0;
+        float tempTurnAroundTime = 0;
 
-        //pr c'est la prioritée
-        int priority[] = new int[n];
+        //trie la liste selon la priority prioritaire
+        Listes.getListProcessusesPriority().sort(comparatorPriority);
 
-        // pr1 la priority
-        int priority1[] = new int[n];
-        //temps globale
-        float time = 0;
-        // temps pour sauvgarder une donnée
-        int temp;
+        //pour le premier le waiting time est initaliser a 0
+        Listes.getListProcessusesPriority().get(0).setWaitTime(0);
 
-        int turnaround[] = new int[n];
-        int p[] = new int[n];
-        float time2 = 0;
+        //boucle pour le calcule pour chaque processus
+        for (int i = 1; i < Listes.getListProcessusesPriority().size(); i++) {
+            // waiting time : temps CPU precedent + waiting time precedent
+            Listes.getListProcessusesPriority().get(i).setWaitTime
+                    (Listes.getListProcessusesPriority().get(i - 1).getCpuTime() +
+                            Listes.getListProcessusesPriority().get(i - 1).getWaitTime());
 
-        watingT1 = new int[n + 1];
-        watingT1[0] = 0;
-
-        for (i = 0; i < n; i++) {
-            System.out.println("ENTER time CPU for each process: p" + (i + 1));
-            // la lecture temps CPU
-            timeCPU[i] = sc.nextInt();
+            // incrementer le temp  par le resulta de la somme ci dessous
+            tempWaitingTime += Listes.getListProcessusesPriority().get(i).getWaitTime();
         }
 
-// le lecture des priorité pour chaque processus
-        for (i = 0; i < n; i++) {
-            System.out.println("Enter the priority for p" + (i + 1));
-            priority[i] = sc.nextInt();
-        }
-// la copie des priorité dans priority1
-        for (i = 0; i < n; i++) {
-            priority1[i] = priority[i];
-        }
-// ordonner le tableau des prioritée du min au max( on considere que la petite priorité c'est  elle qui domine )
-        for (i = 0; i < n; i++)
-            for (int j = i + 1; j < n; j++)
-                if (priority1[i] > priority1[j]) {
-                    temp = priority1[i];
-                    priority1[i] = priority1[j];
-                    priority1[j] = temp;
-                }
-// comparer l'ancien tablaux avec le nouveux pour voir si on a des prioritée egaux
-        for (i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
-                if (priority1[i] == priority[j])
-                    p[i] = j + 1;
+        //boucle pour le calcule pour chaque processus
+        for (int i = 0; i < Listes.getListProcessusesPriority().size(); i++) {
+            // turn arroud time :  temp CPU + waiting time
+            Listes.getListProcessusesPriority().get(i).setTurnAroundTime
+                    (Listes.getListProcessusesPriority().get(i).getCpuTime() +
+                            Listes.getListProcessusesPriority().get(i).getWaitTime());
 
-        for (i = 0; i < n; i++) {
-            int k = p[i];
-            watingT1[i + 1] = timeCPU[k - 1] + watingT1[i];
+            // incrementer le temp  par le resulta de cette somme ci dessous
+            tempTurnAroundTime += Listes.getListProcessusesPriority().get(i).getTurnAroundTime();
         }
 
-        for (i = 0; i < n; i++) {
-            System.out.println("indivisual waiting time for process p" + p[i] + " " + "is" + " " + watingT1[i] + " ");
-        }
+        //remetre l'ordre normal de la liste selon le nom du processus
+        Listes.getListProcessusesPriority().sort(comparatorNum);
 
-        for (i = 0; i < n; i++)
-            time += watingT1[i];
-        float watingTimeMoyenne = time / n;
-        System.out.println("average waiting time is:" + " " + watingTimeMoyenne);
-
-
-        for (i = 0; i < n; i++) {
-            int k = p[i];
-            turnaround[i] = timeCPU[k - 1] + watingT1[i];
-            System.out.println("turnaround time for process p" + p[i] + " " + "is" + " " + turnaround[i] + " ");
-        }
-
-
-        for (i = 0; i < n; i++)
-            time2 += turnaround[i];
-
-        float turnaroudMoyenne = time2 / n;
-        System.out.println("average turn-around time is:" + " " + turnaroudMoyenne);
-
+        //save les moyenne dans le tab avg
+        Listes.getAvg().add(tempWaitingTime / Listes.getListProcessusesPriority().size());
+        Listes.getAvg().add(tempTurnAroundTime / Listes.getListProcessusesPriority().size());
 
     }
 

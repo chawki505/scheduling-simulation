@@ -1,7 +1,14 @@
-package Interface;
+package Interface.AlgorithmeMenu;
 
-import Interface.Calcule.TestCalcul;
-import Model.Processus;
+import Algorithme.Priority;
+
+import Interface.Other.Aleatoire;
+import Interface.Other.ChangeMenu;
+import Interface.Principal.ControlerMenuPrincipal;
+import Interface.Resultat.ControlerMenuResultat;
+import Interface.Other.DetectionErreur;
+import Interface.Other.Listes;
+import Interface.Model.Processus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,7 +27,7 @@ public class ControlerMenuPriority implements Initializable {
 
 
     /**
-     * attribut
+     * Attribut
      **/
 
     @FXML
@@ -40,13 +47,16 @@ public class ControlerMenuPriority implements Initializable {
     //variable pour compter le nombre de processus
     private int compteurProcessus;
 
+    private Priority priority = new Priority();
 
-    private TestCalcul testCalcul = new TestCalcul();
 
+    /**
+     * Methode
+     **/
 
     //methode pour ajouter les processus dans le tab
     private void add() {
-        Listes.getListProcessusesPriority().add(new Processus("P" + (compteurProcessus + 1), Integer.parseInt(cpuTimeField.getText()), Integer.parseInt(priorityField.getText())));
+        Listes.getListProcessusesPriority().add(new Processus((compteurProcessus + 1), Integer.parseInt(cpuTimeField.getText()), Integer.parseInt(priorityField.getText())));
         compteurProcessus++;
         cpuTimeField.setText("");
         priorityField.setText("");
@@ -67,10 +77,23 @@ public class ControlerMenuPriority implements Initializable {
     //button calculer dans le menu priority
     private void calculerPriority(ActionEvent event) throws IOException {
         if (!Listes.getListProcessusesPriority().isEmpty()) {
-            testCalcul.runPriority();
+            priority.runPriorityMethode();
             ControlerMenuResultat.setChoix("Priority");
             ChangeMenu.afficheMenuResultat(event);
+
         }
+    }
+
+    //methode d'ajout aleatoirement
+    private void addProcessusAleatoirement() {
+        Aleatoire aleatoire = new Aleatoire();
+        int nbr = aleatoire.getNbrProcessus();
+        for (int i = 0; i < nbr; i++) {
+            Listes.getListProcessusesPriority().add(new Processus((i + 1), aleatoire.getCpuTime(), aleatoire.getPriority()));
+            compteurProcessus++;
+            aleatoire = new Aleatoire();
+        }
+        tableProcessusPriority.setItems(Listes.getListProcessusesPriority());
     }
 
 
@@ -82,5 +105,9 @@ public class ControlerMenuPriority implements Initializable {
         compteurProcessus = 0;
         cpuTimeField.setText("");
         priorityField.setText("");
+
+        if (ControlerMenuPrincipal.getChoix().equals("Aleatoire")) {
+            addProcessusAleatoirement();
+        }
     }
 }

@@ -1,6 +1,7 @@
-package Interface;
+package Interface.Resultat;
 
-import Model.Processus;
+import Interface.Other.Listes;
+import Interface.Model.Processus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,9 @@ import java.util.ResourceBundle;
  */
 public class ControlerMenuResultat implements Initializable {
 
+    /**
+     * Attribut
+     **/
 
     @FXML
     private TableView<Processus> tableProcessusResulta;
@@ -29,6 +33,8 @@ public class ControlerMenuResultat implements Initializable {
     private TableColumn<Processus, String> nomProcessusColumn;
     @FXML
     private TableColumn<Processus, Number> cpuTimeProcessusColumn;
+    @FXML
+    private TableColumn<Processus, Number> priorityProcessusColumn;
     @FXML
     private TableColumn<Processus, Number> waitingTimeProcessusColumn;
     @FXML
@@ -42,11 +48,15 @@ public class ControlerMenuResultat implements Initializable {
     private static String choix;
 
 
+    /**
+     * Methode
+     **/
+
     @FXML
     // methode action pour le button retour
     private void retourMenuPrincipal(ActionEvent event) throws IOException {
         ((Node) (event.getSource())).getScene().getWindow().hide();
-        Parent root = FXMLLoader.load(getClass().getResource("MenuPrincipal.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Interface/Principal/MenuPrincipal.fxml"));
         Stage primaryStage = new Stage();
         primaryStage.setTitle("Menu Principal");
         primaryStage.setScene(new Scene(root));
@@ -75,6 +85,7 @@ public class ControlerMenuResultat implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         nomProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
         cpuTimeProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().cpuTimeProperty());
+        priorityProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().priorityProperty());
         waitingTimeProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().waitTimeProperty());
         turnAroundTimeProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().turnAroundTimeProperty());
 
