@@ -5,6 +5,7 @@ import Algorithme.FCFS;
 
 import Interface.Other.Aleatoire;
 import Interface.Other.ChangeMenu;
+import Interface.Principal.ControlerMenuCSV;
 import Interface.Principal.ControlerMenuPrincipal;
 import Interface.Resultat.ControlerMenuResultat;
 import Interface.Other.DetectionErreur;
@@ -19,6 +20,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -94,6 +97,36 @@ public class ControlerMenuFCFS implements Initializable {
         tableProcessusFCFS.setItems(Listes.getListProcessusesFCFS());
     }
 
+    //methode ajout processus par csv
+    private void addProcessusCSV() throws Exception {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(ControlerMenuCSV.getPath2()));
+        String line = null;
+
+        while ((line = bufferedReader.readLine()) != null) {
+
+            //suprimer les espace
+            line = line.trim();
+
+            // On saute les lignes vides
+            if (line.length() == 0) {
+                continue;
+            }
+
+            // On saute les lignes de commentaire
+            if (line.startsWith("#")) {
+                continue;
+            }
+
+            // Retourner la ligne dans un tableau
+            String[] data = line.split(",");
+            Listes.getListProcessusesFCFS().add(new Processus(compteurProcessus + 1, Integer.parseInt(data[0])));
+            compteurProcessus++;
+
+        }
+        bufferedReader.close();
+        tableProcessusFCFS.setItems(Listes.getListProcessusesFCFS());
+    }
+
 
     //methode par default pour l'initialisation
     @Override
@@ -105,6 +138,14 @@ public class ControlerMenuFCFS implements Initializable {
 
         if (ControlerMenuPrincipal.getChoix().equals("Aleatoire")) {
             addProcessusAleatoirement();
+        }
+
+        if (ControlerMenuPrincipal.getChoix().equals("csv")) {
+            try {
+                addProcessusCSV();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }

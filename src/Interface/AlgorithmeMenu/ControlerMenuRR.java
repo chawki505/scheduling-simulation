@@ -4,6 +4,7 @@ import Algorithme.Roundrobin;
 
 import Interface.Other.ChangeMenu;
 import Interface.Other.Aleatoire;
+import Interface.Principal.ControlerMenuCSV;
 import Interface.Principal.ControlerMenuPrincipal;
 import Interface.Resultat.ControlerMenuResultat;
 import Interface.Other.DetectionErreur;
@@ -12,11 +13,16 @@ import Interface.Model.Processus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -100,6 +106,36 @@ public class ControlerMenuRR implements Initializable {
         tableProcessusRR.setItems(Listes.getListProcessusesRR());
     }
 
+    //methode ajout processus par csv
+    private void addProcessusCSV() throws Exception {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(ControlerMenuCSV.getPath2()));
+        String line = null;
+
+        while ((line = bufferedReader.readLine()) != null) {
+
+            //suprimer les espace
+            line = line.trim();
+
+            // On saute les lignes vides
+            if (line.length() == 0) {
+                continue;
+            }
+
+            // On saute les lignes de commentaire
+            if (line.startsWith("#")) {
+                continue;
+            }
+
+            // Retourner la ligne dans un tableau
+            String[] data = line.split(",");
+            Listes.getListProcessusesRR().add(new Processus(compteurProcessus + 1, Integer.parseInt(data[0])));
+            compteurProcessus++;
+
+        }
+        bufferedReader.close();
+        tableProcessusRR.setItems(Listes.getListProcessusesRR());
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         nomProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
@@ -111,5 +147,13 @@ public class ControlerMenuRR implements Initializable {
         if (ControlerMenuPrincipal.getChoix().equals("Aleatoire")) {
             addProcessusAleatoirement();
         }
+        if (ControlerMenuPrincipal.getChoix().equals("csv")) {
+            try {
+                addProcessusCSV();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

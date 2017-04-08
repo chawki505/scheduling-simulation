@@ -4,6 +4,7 @@ import Algorithme.Priority;
 
 import Interface.Other.Aleatoire;
 import Interface.Other.ChangeMenu;
+import Interface.Principal.ControlerMenuCSV;
 import Interface.Principal.ControlerMenuPrincipal;
 import Interface.Resultat.ControlerMenuResultat;
 import Interface.Other.DetectionErreur;
@@ -12,10 +13,14 @@ import Interface.Model.Processus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -46,6 +51,7 @@ public class ControlerMenuPriority implements Initializable {
 
     //variable pour compter le nombre de processus
     private int compteurProcessus;
+    private Stage dialogStage;
 
     private Priority priority = new Priority();
 
@@ -54,7 +60,7 @@ public class ControlerMenuPriority implements Initializable {
      * Methode
      **/
 
-    //methode pour ajouter les processus dans le tab
+    //methode pour ajouter les processus dans le tab en saisi
     private void add() {
         Listes.getListProcessusesPriority().add(new Processus((compteurProcessus + 1), Integer.parseInt(cpuTimeField.getText()), Integer.parseInt(priorityField.getText())));
         compteurProcessus++;
@@ -96,6 +102,35 @@ public class ControlerMenuPriority implements Initializable {
         tableProcessusPriority.setItems(Listes.getListProcessusesPriority());
     }
 
+    //methode ajout processus par csv
+    private void addProcessusCSV() throws Exception {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(ControlerMenuCSV.getPath2()));
+        String line = null;
+
+        while ((line = bufferedReader.readLine()) != null) {
+
+            //suprimer les espace
+            line = line.trim();
+
+            // On saute les lignes vides
+            if (line.length() == 0) {
+                continue;
+            }
+
+            // On saute les lignes de commentaire
+            if (line.startsWith("#")) {
+                continue;
+            }
+
+            // Retourner la ligne dans un tableau
+            String[] data = line.split(",");
+            Listes.getListProcessusesPriority().add(new Processus(compteurProcessus + 1, Integer.parseInt(data[0]), Integer.parseInt(data[1])));
+            compteurProcessus++;
+
+        }
+        bufferedReader.close();
+        tableProcessusPriority.setItems(Listes.getListProcessusesPriority());
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -108,6 +143,18 @@ public class ControlerMenuPriority implements Initializable {
 
         if (ControlerMenuPrincipal.getChoix().equals("Aleatoire")) {
             addProcessusAleatoirement();
+        }
+        if (ControlerMenuPrincipal.getChoix().equals("csv")) {
+            try {
+                addProcessusCSV();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.initOwner(dialogStage);
+                alert.setTitle("Invalid csv");
+                alert.setHeaderText("Please correct invalid csv");
+                alert.setContentText("switch manuel mode ");
+                alert.showAndWait();
+            }
         }
     }
 }

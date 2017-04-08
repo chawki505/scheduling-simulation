@@ -3,8 +3,13 @@ package Interface.Principal;
 import Interface.Other.ChangeMenu;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.RadioButton;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,7 +47,17 @@ public class ControlerMenuPrincipal implements Initializable {
     @FXML
     private void buttonSuivant(ActionEvent event) throws IOException {
         choseMode();
-        ChangeMenu.afficheMenuChoixAlgo(event);
+        if (!ControlerMenuPrincipal.getChoix().equals("csv")) {
+            ChangeMenu.afficheMenuChoixAlgo(event);
+        } else {
+            ((Node) (event.getSource())).getScene().getWindow().hide();
+            Parent root = FXMLLoader.load(ChangeMenu.class.getResource("/Interface/Principal/MenuCSV.fxml"));
+            Stage primaryStage = new Stage();
+            primaryStage.setTitle("CSV Menu");
+            primaryStage.setScene(new Scene(root));
+            primaryStage.setResizable(false);
+            primaryStage.show();
+        }
     }
 
     //methode pour le choix du mode de saisi
@@ -57,7 +72,7 @@ public class ControlerMenuPrincipal implements Initializable {
         }
 
         if (csv.isSelected()) {
-            choix = "csv Menu";
+            choix = "csv";
         }
 
     }
