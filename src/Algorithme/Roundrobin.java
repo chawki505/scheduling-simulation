@@ -8,7 +8,7 @@ import Interface.AlgorithmeMenu.ControlerMenuRR;
 import Interface.Other.Listes;
 
 
-public class Roundrobin {
+public class Roundrobin extends Comparator {
 
 
     /**

@@ -6,7 +6,7 @@ import Interface.Other.Listes;
 /**
  * Created by chawki on 21/03/2017.
  */
-public class FCFS {
+public class FCFS extends Comparator{
 
     /**
      * Methodes
