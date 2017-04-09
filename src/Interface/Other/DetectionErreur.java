@@ -50,4 +50,14 @@ public class DetectionErreur {
             return false;
         }
     }
+
+
+    public static void errorFichierCSV() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.initOwner(dialogStage);
+        alert.setTitle("Invalid csv");
+        alert.setHeaderText("Please correct valid csv");
+        alert.setContentText("switch manuel mode ");
+        alert.showAndWait();
+    }
 }

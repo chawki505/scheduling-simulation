@@ -139,7 +139,7 @@ public class ControlerMenuSJF implements Initializable {
             try {
                 addProcessusCSV();
             } catch (Exception e) {
-                e.printStackTrace();
+                DetectionErreur.errorFichierCSV();
             }
         }
     }

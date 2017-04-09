@@ -13,11 +13,9 @@ import Interface.Model.Processus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -51,7 +49,6 @@ public class ControlerMenuPriority implements Initializable {
 
     //variable pour compter le nombre de processus
     private int compteurProcessus;
-    private Stage dialogStage;
 
     private Priority priority = new Priority();
 
@@ -148,13 +145,10 @@ public class ControlerMenuPriority implements Initializable {
             try {
                 addProcessusCSV();
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.initOwner(dialogStage);
-                alert.setTitle("Invalid csv");
-                alert.setHeaderText("Please correct invalid csv");
-                alert.setContentText("switch manuel mode ");
-                alert.showAndWait();
+                DetectionErreur.errorFichierCSV();
             }
         }
     }
+
+
 }

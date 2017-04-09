@@ -10,11 +10,11 @@ public class Aleatoire {
 
 
     //le nombre de processus de 1 processus max 20
-    private int nbrProcessus = random.nextInt(20) + 1;
+    private int nbrProcessus = random.nextInt(10) + 1;
 
 
     //le cpu time de 1 a 50
-    private int cpuTime = random.nextInt(20) + 1;
+    private int cpuTime = random.nextInt(10) + 1;
 
 
     //la priority de 1 a 10

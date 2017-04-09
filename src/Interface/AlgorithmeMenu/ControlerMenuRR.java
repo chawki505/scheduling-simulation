@@ -13,12 +13,9 @@ import Interface.Model.Processus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
 
 import java.io.BufferedReader;
@@ -151,7 +148,7 @@ public class ControlerMenuRR implements Initializable {
             try {
                 addProcessusCSV();
             } catch (Exception e) {
-                e.printStackTrace();
+                DetectionErreur.errorFichierCSV();
             }
         }
 
