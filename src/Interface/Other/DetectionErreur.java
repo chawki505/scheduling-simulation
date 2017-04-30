@@ -17,6 +17,8 @@ public class DetectionErreur {
         String errorMessage = "";
 
         if (label.getText() == null || label.getText().length() == 0) {
+            if (choix.equals("Arrive"))
+                errorMessage += "vous n'avez pas saisi le temp d'arrive!\n";
             if (choix.equals("CPUtime"))
                 errorMessage += "vous n'avez pas saisi le cpu time!\n";
             if (choix.equals("Priority"))
@@ -28,6 +30,8 @@ public class DetectionErreur {
             try {
                 Integer.parseInt(label.getText());
             } catch (NumberFormatException e) {
+                if (choix.equals("arrive"))
+                    errorMessage += "votre temp d'arrive n'est pas un nombre correcte !\n";
                 if (choix.equals("CPUtime"))
                     errorMessage += "votre cpu time n'est pas un nombre correcte !\n";
                 if (choix.equals("Priority"))

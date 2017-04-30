@@ -5,7 +5,10 @@ package Algorithme;
  */
 
 import Interface.AlgorithmeMenu.ControlerMenuRR;
+import Interface.Model.Processus;
 import Interface.Other.Listes;
+
+import java.util.ArrayList;
 
 
 public class Roundrobin extends Comparator {
@@ -15,92 +18,124 @@ public class Roundrobin extends Comparator {
      * Methodes
      **/
 
-    //methode RR
+
+    //methode pour active les P dans la liste
+    private void activeP(ArrayList<Processus> list, int horloge) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getArrive() <= horloge && list.get(i).getCpuTime() > 0 && !list.get(i).isStatus()) {
+                list.get(i).setStatus(true);
+            }
+        }
+
+    }
+
+    //methode du RR
     public void runRRmethode() {
 
+        float tempWaitingTime = 0;
+        float tempTurnAroundTime = 0;
+        int horloge;
+
         int quantum = ControlerMenuRR.getQuantum(); //recuperation de la valeur du quantum
-        int nbrProcessus = Listes.getListProcessusesRR().size();
+        boolean status; //condition pour soritre de la boucle do while
 
-        int cpuTime[] = new int[nbrProcessus]; // tab des cpu time
-        int waitingTime[] = new int[nbrProcessus]; // tab des waiting time
-        int turnAroundtime[] = new int[nbrProcessus]; //tab des turn arround time
+        //trier par arrive
+        Listes.getListProcessusesRR().sort(comparatorArrive);
 
-        int tempCPUtime[] = new int[nbrProcessus];  //tab temp cpu time
-
-
-        int tempWT = 0, tempTAT = 0; //temp total des WT et TAT
-        boolean status; //condition pour soritre de la boucle switch
+        //liste d'attente
+        ArrayList<Processus> tempListe = new ArrayList<>();
 
 
-        // boucle pour la recuperation des données processus
-        for (int i = 0; i < nbrProcessus; i++) {
-            cpuTime[i] = Listes.getListProcessusesRR().get(i).getCpuTime();
-            tempCPUtime[i] = cpuTime[i]; // save dans le tab temp
+        //boucle pour add les processus dans la liste
+        for (int i = 0; i < Listes.getListProcessusesRR().size(); i++) {
+            tempListe.add(new Processus(Listes.getListProcessusesRR().get(i)));
         }
 
 
-        // boucle pour calculer le waiting time en fonction du quantum
+        //initialiser l'horloge au temp d'arivé du 1er
+        horloge = tempListe.get(0).getArrive();
+
+
         do {
             status = false;
 
-            for (int i = 0; i < nbrProcessus; i++) {
+            activeP(tempListe, horloge); //activer les procesus selon l horloge  en cour
 
-                //calcule du waiting time si cpu time >= quantum
-                if (tempCPUtime[i] >= quantum) {
-                    for (int j = 0; j < nbrProcessus; j++) {
-                        if (j == i) {
-                            tempCPUtime[i] = tempCPUtime[i] - quantum;
+            //boucle de traitement horloge et waiting time
+            for (int i = 0; i < tempListe.size(); i++) {
 
-                        } else if (tempCPUtime[j] > 0) {
-                            waitingTime[j] += quantum;
+                //cpu time >= quantum
+                if (tempListe.get(i).getCpuTime() >= quantum && tempListe.get(i).isStatus()) {
+                    //decrementer le cpu time
+                    tempListe.get(i).setCpuTime(tempListe.get(i).getCpuTime() - quantum);
+
+                    //incrementé l'horloge
+                    horloge = horloge + quantum;
+
+                    //boucle de calcule du wait time
+                    for (int j = 0; j < tempListe.size(); j++) {
+                        if (j != i && tempListe.get(j).getCpuTime() != 0 && tempListe.get(i).isStatus()) {
+                            tempListe.get(j).setWaitTime(tempListe.get(j).getWaitTime() + quantum);
                         }
                     }
-                }
+                    //cpu time < quantum
+                } else if (tempListe.get(i).getCpuTime() > 0 && tempListe.get(i).isStatus()) {
 
-                //calcule du waiting time si cpu time < quantum
-                else if (tempCPUtime[i] > 0) {
-                    for (int j = 0; j < nbrProcessus; j++) {
-                        if (j == i) {
-                            tempCPUtime[i] = 0;
-                        } else if (tempCPUtime[j] > 0) {
-                            waitingTime[j] += tempCPUtime[i];
+                    //boucle de calcule du wait time
+                    for (int j = 0; j < tempListe.size(); j++) {
+                        if (j != i && tempListe.get(j).getCpuTime() > 0 && tempListe.get(j).isStatus()) {
+                            tempListe.get(j).setWaitTime(tempListe.get(j).getWaitTime() + tempListe.get(i).getCpuTime());
                         }
                     }
+                    //cpu time = 0 dans le else
+                    tempListe.get(i).setCpuTime(0);
+                    //incrementé l'horloge
+                    horloge = horloge + quantum;
                 }
+
+
             }
 
-            //boucle pour verifier si tous les cpu time ne sont pas encore egale a 0  sinon sortire de la boucle switch
-            for (int i = 0; i < nbrProcessus; i++) {
-                if (tempCPUtime[i] > 0) {
+            //boucle pour verifier si on a fini le traitement de tous les processus pour sortire du do while
+            for (int k = 0; k < tempListe.size(); k++) {
+                if (tempListe.get(k).getCpuTime() > 0) {
                     status = true;
+                    break;
                 }
             }
+
         } while (status);
 
 
-        //boucle pour calculer le turn around
-        for (int i = 0; i < nbrProcessus; i++) {
-            turnAroundtime[i] = waitingTime[i] + cpuTime[i];
+        //boucle pour recuperer le waiting time de la list temp
+        for (int i = 0; i < tempListe.size(); i++) {
+
+            Listes.getListProcessusesRR().get(i).setWaitTime(tempListe.get(i).getWaitTime());
+            //increment le waittime total
+            tempWaitingTime = tempWaitingTime + Listes.getListProcessusesRR().get(i).getWaitTime();
+            // calcule le turn arrond = cpu time + wait time
+            Listes.getListProcessusesRR().get(i).setTurnAroundTime(Listes.getListProcessusesRR().get(i).getWaitTime() + Listes.getListProcessusesRR().get(i).getCpuTime());
+            //increment le turn arrond total
+            tempTurnAroundTime = tempTurnAroundTime + Listes.getListProcessusesRR().get(i).getTurnAroundTime();
         }
 
 
-        //boucle pour save les donnée dans la liste et calculer le waiting et arround time total
-        for (int i = 0; i < nbrProcessus; i++) {
-            Listes.getListProcessusesRR().get(i).setWaitTime(waitingTime[i]);
-            Listes.getListProcessusesRR().get(i).setTurnAroundTime(turnAroundtime[i]);
-            tempWT += waitingTime[i];
-            tempTAT += turnAroundtime[i];
-        }
+        //retrier la liste selon le num
+        Listes.getListProcessusesRR().sort(comparatorNum);
 
 
         //calcule de la moy waiting et turnarround et save dans la liste avg
-        float moyWait = (tempWT / nbrProcessus);
-        float moyTurn = (tempTAT / nbrProcessus);
+        float moyWait = (tempWaitingTime / Listes.getListProcessusesRR().size());
+        float moyTurn = (tempTurnAroundTime / Listes.getListProcessusesRR().size());
 
+        //save dans la list avg
         Listes.getAvg().add(moyWait);
         Listes.getAvg().add(moyTurn);
 
+
     }
+
+
 }
 
 

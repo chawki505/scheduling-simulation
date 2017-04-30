@@ -49,11 +49,62 @@ public class Priority extends Comparator {
         }
 
         //remetre l'ordre normal de la liste selon le nom du processus
+        //Listes.getListProcessusesPriority().sort(comparatorNum);
+
+        //save les moyenne dans le tab avg
+        Listes.getAvg().add(tempWaitingTime / Listes.getListProcessusesPriority().size());
+        Listes.getAvg().add(tempTurnAroundTime / Listes.getListProcessusesPriority().size());
+
+    }
+
+
+    public void runPriorityMethode2() {
+
+        float tempWaitingTime = 0;
+        float tempTurnAroundTime = 0;
+        float horloge;
+
+        //trier par arrive et priority
+        Listes.getListProcessusesPriority().sort(comparatorArrivePriority);
+
+        //initialiser l'horloge au temp d'arivé du 1er
+        horloge = Listes.getListProcessusesPriority().get(0).getArrive();
+
+
+        // boucle pour calculer le waiting time
+        //waitingTime[i] = Horloge - arrivalTime[i];
+        // horloge is actually current time.
+        for (int i = 0; i < Listes.getListProcessusesPriority().size(); i++) {
+
+            if (horloge - Listes.getListProcessusesPriority().get(i).getArrive() < 0) {
+                horloge = Listes.getListProcessusesPriority().get(i).getArrive();
+            }
+
+            Listes.getListProcessusesPriority().get(i).setWaitTime(horloge - Listes.getListProcessusesPriority().get(i).getArrive());
+
+            horloge += Listes.getListProcessusesPriority().get(i).getCpuTime();
+            tempWaitingTime += Listes.getListProcessusesPriority().get(i).getWaitTime();   // incrementer le temp total du wainting time
+        }
+
+
+        //boucle pour le calcule pour chaque processus
+        for (int i = 0; i < Listes.getListProcessusesPriority().size(); i++) {
+            // turn arroud time :  temp CPU + waiting time
+            Listes.getListProcessusesPriority().get(i).setTurnAroundTime
+                    (Listes.getListProcessusesPriority().get(i).getCpuTime() +
+                            Listes.getListProcessusesPriority().get(i).getWaitTime());
+
+            tempTurnAroundTime += Listes.getListProcessusesPriority().get(i).getTurnAroundTime(); // incrementer le temp  par le resulta de cette somme ci dessous
+        }
+
+
+        //trier par numero
         Listes.getListProcessusesPriority().sort(comparatorNum);
 
         //save les moyenne dans le tab avg
         Listes.getAvg().add(tempWaitingTime / Listes.getListProcessusesPriority().size());
         Listes.getAvg().add(tempTurnAroundTime / Listes.getListProcessusesPriority().size());
+
 
     }
 

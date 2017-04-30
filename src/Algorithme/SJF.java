@@ -3,7 +3,6 @@ package Algorithme;
 import Interface.Other.Listes;
 
 
-
 /**
  * Created by chawki on 21/03/2017.
  */
@@ -14,7 +13,7 @@ public class SJF extends Comparator {
      * Methodes
      **/
 
-//methode sjf
+//methode sjf sans temp d'arivé
     public void runSJFmethode() {
 
         float tempWaitingTime = 0;
@@ -49,7 +48,7 @@ public class SJF extends Comparator {
         }
 
         //remetre l'ordre normal de la liste selon le nom du processus
-        Listes.getListProcessusesSJF().sort(comparatorNum);
+        // Listes.getListProcessusesSJF().sort(comparatorNum);
 
         //save les moyennes dans le tab avg
         Listes.getAvg().add(tempWaitingTime / Listes.getListProcessusesSJF().size());
@@ -57,7 +56,57 @@ public class SJF extends Comparator {
 
     }
 
+    //methode avec temp d'arrivé
+    public void runSJFmethode2() {
+
+        float tempWaitingTime = 0;
+        float tempTurnAroundTime = 0;
+        float horloge;
+
+        //trier par arrive
+        Listes.getListProcessusesSJF().sort(comparatorArriveCpuTime);
+
+        //initialiser l'horloge au temp d'arivé du 1er
+        horloge = Listes.getListProcessusesSJF().get(0).getArrive();
+
+
+        // boucle pour calculer le waiting time
+        //waitingTime[i] = Horloge - arrivalTime[i];
+        // horloge is actually current time.
+        for (int i = 0; i < Listes.getListProcessusesSJF().size(); i++) {
+
+            if (horloge - Listes.getListProcessusesSJF().get(i).getArrive() < 0) {
+                horloge = Listes.getListProcessusesSJF().get(i).getArrive();
+            }
+
+            Listes.getListProcessusesSJF().get(i).setWaitTime(horloge - Listes.getListProcessusesSJF().get(i).getArrive());
+
+            horloge += Listes.getListProcessusesSJF().get(i).getCpuTime();
+            tempWaitingTime += Listes.getListProcessusesSJF().get(i).getWaitTime();   // incrementer le temp total du wainting time
+        }
+
+
+        //boucle pour le calcule pour chaque processus
+        for (int i = 0; i < Listes.getListProcessusesSJF().size(); i++) {
+            // turn arroud time :  temp CPU + waiting time
+            Listes.getListProcessusesSJF().get(i).setTurnAroundTime
+                    (Listes.getListProcessusesSJF().get(i).getCpuTime() +
+                            Listes.getListProcessusesSJF().get(i).getWaitTime());
+
+            tempTurnAroundTime += Listes.getListProcessusesSJF().get(i).getTurnAroundTime(); // incrementer le temp  par le resulta de cette somme ci dessous
+        }
+
+
+        //trier par numero
+        Listes.getListProcessusesSJF().sort(comparatorNum);
+
+        //save les moyenne dans le tab avg
+        Listes.getAvg().add(tempWaitingTime / Listes.getListProcessusesSJF().size());
+        Listes.getAvg().add(tempTurnAroundTime / Listes.getListProcessusesSJF().size());
+    }
+
 
 }
+
 
 

@@ -10,23 +10,26 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="243.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.AlgorithmeMenu.ControlerMenuRR">
-   <children>
-      <TableView fx:id="tableProcessusRR" layoutX="359.0" layoutY="14.0" prefHeight="185.0" prefWidth="222.0">
-        <columns>
-          <TableColumn fx:id="nomProcessusColumn" prefWidth="101.0" resizable="false" text="Processus" />
-          <TableColumn fx:id="cpuTimeProcessusColumn" prefWidth="104.0" resizable="false" text="Temp CPU" />
-        </columns>
-      </TableView>
-      <TextField fx:id="cpuTimeField" layoutX="203.0" layoutY="113.0" prefHeight="27.0" prefWidth="45.0" />
-      <Label layoutX="33.0" layoutY="118.0" text="Temp CPU du processus :" />
-      <Button layoutX="278.0" layoutY="113.0" mnemonicParsing="false" onAction="#ajouterProcessus" text="Ajouter" />
-      <Text layoutX="25.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pour ajouter un processus il sufit de fixé le temp cpu puis de cliquer sur ajouter" wrappingWidth="316.2548828125">
-         <font>
-            <Font name="Arial" size="16.0" />
-         </font>
-      </Text>
-      <Button layoutX="436.0" layoutY="204.0" mnemonicParsing="false" onAction="#calculerRR" text="Calculer" />
-      <Label layoutX="129.0" layoutY="195.0" text="Quantum :" />
-      <TextField fx:id="quantumField" layoutX="203.0" layoutY="190.0" prefHeight="27.0" prefWidth="45.0" />
-   </children>
+    <children>
+        <TableView fx:id="tableProcessusRR" layoutX="331.0" layoutY="14.0" prefHeight="185.0" prefWidth="256.0">
+            <columns>
+                <TableColumn fx:id="nomProcessusColumn" prefWidth="77.0" resizable="false" text="Processus" />
+            <TableColumn fx:id="arriveProcessusColumn" prefWidth="76.0" resizable="false" text="Arrive" />
+                <TableColumn fx:id="cpuTimeProcessusColumn" prefWidth="79.0" resizable="false" text="Temp CPU" />
+            </columns>
+        </TableView>
+        <TextField fx:id="cpuTimeField" layoutX="150.0" layoutY="140.0" prefHeight="27.0" prefWidth="45.0" />
+        <Label layoutX="34.0" layoutY="145.0" text="Temp CPU :" />
+        <Button layoutX="213.0" layoutY="124.0" mnemonicParsing="false" onAction="#ajouterProcessus" text="Ajouter" />
+        <Text layoutX="25.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pour ajouter un processus il sufit de fixé l'arrivé et le temp cpu puis de cliquer sur ajouter" wrappingWidth="316.2548828125">
+            <font>
+                <Font name="Arial" size="16.0" />
+            </font>
+        </Text>
+        <Button layoutX="422.0" layoutY="206.0" mnemonicParsing="false" onAction="#calculerRR" text="Calculer" />
+      <Label layoutX="30.0" layoutY="113.0" text="Temp arrive :" />
+      <TextField fx:id="arriveTimeField" layoutX="150.0" layoutY="110.0" prefHeight="27.0" prefWidth="45.0" />
+      <TextField fx:id="quantumField" layoutX="150.0" layoutY="204.0" prefHeight="27.0" prefWidth="45.0" />
+      <Label layoutX="34.0" layoutY="209.0" text="Quantum :" />
+    </children>
 </AnchorPane>

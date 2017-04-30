@@ -1,6 +1,6 @@
 package Interface.Other;
 
-import Interface.Model.Processus;
+import Interface.Model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -9,13 +9,14 @@ import java.util.ArrayList;
 /**
  * Created by chawki on 06/04/2017.
  */
-public class Listes {
+public abstract class Listes {
 
     private static ArrayList<Float> avg = new ArrayList<>();
 
 
     //tab des donnés des processus FCFS
     private static ObservableList<Processus> listProcessusesFCFS = FXCollections.observableArrayList();
+
 
     //tab des donnés des processus SJF
     private static ObservableList<Processus> listProcessusesSJF = FXCollections.observableArrayList();
@@ -56,5 +57,6 @@ public class Listes {
     public static ObservableList<Processus> getListProcessusesRR() {
         return listProcessusesRR;
     }
+
 
 }

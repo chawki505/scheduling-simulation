@@ -2,6 +2,7 @@ package Interface.AlgorithmeMenu;
 
 import Algorithme.Roundrobin;
 
+import Interface.Model.Processus;
 import Interface.Other.ChangeMenu;
 import Interface.Other.Aleatoire;
 import Interface.Principal.ControlerMenuCSV;
@@ -9,7 +10,6 @@ import Interface.Principal.ControlerMenuPrincipal;
 import Interface.Resultat.ControlerMenuResultat;
 import Interface.Other.DetectionErreur;
 import Interface.Other.Listes;
-import Interface.Model.Processus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,7 +38,12 @@ public class ControlerMenuRR implements Initializable {
     @FXML
     private TableColumn<Processus, String> nomProcessusColumn;
     @FXML
+    private TableColumn<Processus, Number> arriveProcessusColumn;
+    @FXML
     private TableColumn<Processus, Number> cpuTimeProcessusColumn;
+
+    @FXML
+    private TextField arriveTimeField;
     @FXML
     private TextField cpuTimeField;
     @FXML
@@ -64,16 +69,17 @@ public class ControlerMenuRR implements Initializable {
 
     //methode pour ajouter les processus dans le tab
     private void add() {
-        Listes.getListProcessusesRR().add(new Processus((compteurProcessus + 1), Integer.parseInt(cpuTimeField.getText())));
+        Listes.getListProcessusesRR().add(new Processus((compteurProcessus + 1), Integer.parseInt(arriveTimeField.getText()), Integer.parseInt(cpuTimeField.getText())));
         compteurProcessus++;
         cpuTimeField.setText("");
+        arriveTimeField.setText("");
     }
 
 
     //button ajouter processus
     @FXML
     private void ajouterProcessus(ActionEvent event) {
-        if (DetectionErreur.isInputValid(cpuTimeField, "CPUtime")) {
+        if (DetectionErreur.isInputValid(arriveTimeField, "Arrive") && DetectionErreur.isInputValid(cpuTimeField, "CPUtime")) {
             add();
             tableProcessusRR.setItems(Listes.getListProcessusesRR());
         }
@@ -96,7 +102,7 @@ public class ControlerMenuRR implements Initializable {
         Aleatoire aleatoire = new Aleatoire();
         int nbr = aleatoire.getNbrProcessus();
         for (int i = 0; i < nbr; i++) {
-            Listes.getListProcessusesRR().add(new Processus((i + 1), aleatoire.getCpuTime()));
+            Listes.getListProcessusesRR().add(new Processus((i + 1), aleatoire.getArrive(), aleatoire.getCpuTime()));
             compteurProcessus++;
             aleatoire = new Aleatoire();
         }
@@ -125,7 +131,7 @@ public class ControlerMenuRR implements Initializable {
 
             // Retourner la ligne dans un tableau
             String[] data = line.split(",");
-            Listes.getListProcessusesRR().add(new Processus(compteurProcessus + 1, Integer.parseInt(data[0])));
+            Listes.getListProcessusesRR().add(new Processus(compteurProcessus + 1, Integer.parseInt(data[0]), Integer.parseInt(data[1])));
             compteurProcessus++;
 
         }
@@ -136,11 +142,16 @@ public class ControlerMenuRR implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         nomProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
+        arriveProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().arriveProperty());
         cpuTimeProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().cpuTimeProperty());
+
+        arriveTimeField.setText("");
+        cpuTimeField.setText("");
+        quantumField.setText("1");
+
         compteurProcessus = 0;
         quantum = 1;
-        cpuTimeField.setText("");
-        quantumField.setText("");
+
         if (ControlerMenuPrincipal.getChoix().equals("Aleatoire")) {
             addProcessusAleatoirement();
         }

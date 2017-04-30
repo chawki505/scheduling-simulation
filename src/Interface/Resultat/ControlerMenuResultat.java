@@ -1,7 +1,7 @@
 package Interface.Resultat;
 
 import Interface.Other.Listes;
-import Interface.Model.Processus;
+import Interface.Model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +31,8 @@ public class ControlerMenuResultat implements Initializable {
     private TableView<Processus> tableProcessusResulta;
     @FXML
     private TableColumn<Processus, String> nomProcessusColumn;
+    @FXML
+    private TableColumn<Processus, Number> arriveProcessusColumn;
     @FXML
     private TableColumn<Processus, Number> cpuTimeProcessusColumn;
     @FXML
@@ -84,6 +86,7 @@ public class ControlerMenuResultat implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         nomProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().nomProperty());
+        arriveProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().arriveProperty());
         cpuTimeProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().cpuTimeProperty());
         priorityProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().priorityProperty());
         waitingTimeProcessusColumn.setCellValueFactory(cellData -> cellData.getValue().waitTimeProperty());
