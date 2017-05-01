@@ -65,7 +65,7 @@ public class Roundrobin extends Comparator {
             for (int i = 0; i < tempListe.size(); i++) {
 
                 //cpu time >= quantum
-                if (tempListe.get(i).getCpuTime() >= quantum && tempListe.get(i).isStatus()) {
+                if (tempListe.get(i).getCpuTime() > quantum && tempListe.get(i).isStatus()) {
                     //decrementer le cpu time
                     tempListe.get(i).setCpuTime(tempListe.get(i).getCpuTime() - quantum);
 
